@@ -14,8 +14,8 @@ namespace PointsApiApp.Controllers
             _pointsService = pointsService;
         }
 		[HttpGet]
-		[Route("all")]
-		public List<Point> GetPoints()
+		[Route("balance")]
+		public Dictionary<string, int> GetPoints()
 		{
 			return _pointsService.GetPoints();
 		}
@@ -26,6 +26,7 @@ namespace PointsApiApp.Controllers
             return _pointsService.SpendPoints(pointsRequest.Points);
         }
         [HttpPost]
+		[Route("add")]
 		public Point AddTransaction([FromBody] Point transaction)
         {
 			return _pointsService.AddTransaction(transaction);

@@ -1,54 +1,15 @@
-﻿using System;
-using System.Text.Json;
-
+﻿
 namespace PointsApiApp.Services
 {
 	public class PointsService : IPointsService
 	{
-		List<Point> transactions = new List<Point>();
-		List<string> payers = new List<string>();
+		private List<Point> transactions = new List<Point>();
+		private readonly List<string> payers = new List<string>();
+		private Dictionary<string, int> totals;
 
-        public PointsService()
-        {
-			transactions.Add(new Point
-			{
-				Payer = "Dannon",
-				Points = 1000,
-				Timestamp = DateTime.UtcNow
-			});
-			transactions.Add(new Point
-			{
-				Payer = "Unilever",
-				Points = 200,
-				Timestamp = DateTime.UtcNow.AddMinutes(-3)
-			});
-			transactions.Add(new Point
-			{
-				Payer = "Dannon",
-				Points = -200,
-				Timestamp = DateTime.UtcNow.AddMinutes(-2)
-			});
-			transactions.Add(new Point
-			{
-				Payer = "Miller Coors",
-				Points = 10000,
-				Timestamp = DateTime.UtcNow.AddMinutes(-1)
-			});
-			transactions.Add(new Point
-			{
-				Payer = "Dannon",
-				Points = 300,
-				Timestamp = DateTime.UtcNow.AddMinutes(-4)
-			});
-			transactions = transactions.OrderBy(t => t.Timestamp).ToList();
-			payers.Add("Dannon");
-			payers.Add("Unilever");
-			payers.Add("Miller Coors");
-		}
-
-        public List<Point> GetPoints()
+        public Dictionary<string, int> GetPoints()
 		{
-			return transactions.ToList<Point>();
+			return totals;
 		}
 
 		public Point AddTransaction(Point transaction)
@@ -64,28 +25,35 @@ namespace PointsApiApp.Services
 
 		public Dictionary<string, int> SpendPoints(int points)
 		{
-			var total = 0;
-			Dictionary<string, int> totals = new Dictionary<string, int>();
+			//Check to see if param was negative.
+			if (points < 0)
+            {
+				points = Math.Abs(points);
+            }
+			totals = new Dictionary<string, int>();
+			var spentPoints = new Dictionary<string, int>();
 			payers.ForEach(p =>
 			{
 				totals[p] = 0;
+				spentPoints[p] = 0;
 			});
-			//transactions.ForEach(t =>
-   //         {
-			//	t.Points
-			//	if (total < )
-   //         });
 			foreach (var transaction in transactions)
-            {
+			{
 				totals[transaction.Payer] += transaction.Points;
-				if (total < points)
+				if (transaction.Points >= points)
+				{
+					spentPoints[transaction.Payer] -= points;
+					totals[transaction.Payer] -= points;
+					points = 0;
+				}
+				else
                 {
-
-                }
-				
-
+					spentPoints[transaction.Payer] -= transaction.Points;
+					points -= transaction.Points;
+					totals[transaction.Payer] -= transaction.Points;
+				}
 			}
-			return totals;
+			return spentPoints;
 		}
 
 
