@@ -25,7 +25,7 @@ This is a REST API web service that accepts HTTP requests and returns responses 
 6. Use Swagger UI to run the project according to endpoints in next section.
 
 ## Endpoints:
-### POST localhost:####/add
+### POST localhost:####/Points/add
 * This endpoint is the starting place for running the project. We will add our transactions here.
 1. Expand the `/Points/add` endpoint.
 2. Click "Try it out"
@@ -52,7 +52,7 @@ This is a REST API web service that accepts HTTP requests and returns responses 
 - `{ "payer": "MILLER COORS", "points": 10000, "timestamp": "2020-11-01T14:00:00Z" }`
 - `{ "payer": "DANNON", "points": 300, "timestamp": "2020-10-31T10:00:00Z" }`
 
-### POST localhost:####/spend
+### POST localhost:####/Points/spend
 * This endpoint is for spending our points according to these rules:
   - Oldest points must be spent first according to timestamp for each transaction.
   - No single payer's points balance can go negative.
@@ -73,7 +73,7 @@ This is a REST API web service that accepts HTTP requests and returns responses 
 #### Test Data ###
 - `{ "points": 5000 }`
 
-### GET localhost:####/balance
+### GET localhost:####/Points/balance
 * This endpoint is for returning the total balances for each payer.
 
 1. Expand the `/Points/balance` endpoint.
