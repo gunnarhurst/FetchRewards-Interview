@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 namespace PointsApiApp.Services
 {
 	public interface IPointsService

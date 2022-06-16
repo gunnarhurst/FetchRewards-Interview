@@ -19,6 +19,7 @@ namespace PointsApiApp.Services
 				payers.Add(transaction.Payer);
             }
 			transactions.Add(transaction);
+			//sort the transactions by timestamp
 			transactions = transactions.OrderBy(t => t.Timestamp).ToList();
 			return transaction;
 		}
@@ -31,13 +32,14 @@ namespace PointsApiApp.Services
 				points = Math.Abs(points);
             }
 			totals = new Dictionary<string, int>();
+			//keep track of points spent
 			var spentPoints = new Dictionary<string, int>();
 			payers.ForEach(p =>
 			{
 				totals[p] = 0;
 				spentPoints[p] = 0;
 			});
-			foreach (var transaction in transactions)
+			foreach (var transaction in transactions) 
 			{
 				totals[transaction.Payer] += transaction.Points;
 				if (transaction.Points >= points)

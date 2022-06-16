@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 namespace PointsApiApp
 {
 	public class SpendPointsRequest
